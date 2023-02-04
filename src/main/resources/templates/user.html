@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8" th:remove="tag">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>予約システム</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <p id="flush" class="d-flex align-items-center justify-content-center fs-5 my-5 mx-auto">
+                ようこそ&nbsp;<span th:text="${username}" class="mx-3"></span>&nbsp;さん</p>
+                
+             <h2 class="text-center">お申し込み内容</h2>
+             
+             <form  th:action="@{/reserve}" method="post" class="p-0">
+                 <select th:object="${date}"></select>
+             </form>
+             <div th:if="${reserves == null}" class="center-block">
+                 <h3 class="fs-3 text-center">現在お申し込み中の内容はありません</h3>
+             </div>
+
+            <div th:if="${reserves != null}">
+                
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

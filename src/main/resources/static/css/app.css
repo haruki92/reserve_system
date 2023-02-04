@@ -1,0 +1,52 @@
+@charset "UTF-8";
+header {
+    height: 10vh;
+    background: #002434;
+    color: #fff;
+}
+
+.logout {
+    color: #fff;
+    text-decoration: none;
+}
+
+#system_title {
+    line-height: 10vh;
+    text-align: center;
+}
+
+#flush_denger {
+    color: #721C24;
+    background-color: #F8D7DA;
+    height:10vh;
+}
+
+#flush_success {
+    color: #155724;
+    background-color: #D4EDDA;
+    height:10vh;
+}
+
+#flush {
+    border:1px solid #ccc;
+    border-radius: 20px 20px 20px 20px;
+    height:10vh;
+    width: 30%;
+}
+
+.input {
+    border-radius: 9999px;
+    border-color: #ccc;
+    height: 5vh;
+}
+
+::-moz-placeholder {
+    color: #ccc;
+}
+
+.btn {
+    height: 7vh;
+    font-size: 1.3rem;
+    background-color: #0B1456;
+    border-radius: 9999px;
+}
