@@ -39,15 +39,46 @@ header {
     width: 30%;
 }
 
-.input {
+.input,
+.select {
     border-radius: 9999px;
     border-color: #ccc;
     height: 5vh;
 }
 
-::-moz-placeholder {
-    color: #ccc;
+.check:hover,
+.input:hover,
+.select:hover {
+    border: 1px solid #0094ff;
+    background-color:#cbe9ff;
+    transition:0.2s;
 }
+
+.select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-indent: 3%;
+}
+
+.select-wrap {
+    position: relative;
+}
+
+.select-wrap:after {
+    content: "";
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #ccc;
+    border-left: 2px solid #ccc;
+    transform: translateY(-50%) rotate(-135deg);
+    font-size: 20px;
+    pointer-events: none;
+}
+
 
 .btn {
     height: 7vh;
@@ -62,4 +93,14 @@ header {
 
 #remarks {
     min-height: 40vh;
+}
+
+table {
+    -ms-writing-mode : tb-lr;
+    writing-mode : vertical-lr;
+}
+
+th,
+td {
+    writing-mode:horizontal-tb;
 }

@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,26 +58,47 @@ public class SecurityController {
 		return "user";
 	}
 
-	@GetMapping("/admin/list")
-	public String showAdminList(Model model) {
-		model.addAttribute("users", userRepository.findAll());
-		return "list";
-	}
-
 	@GetMapping("/register")
 	public String register(@ModelAttribute("user") User user) {
 		return "register";
 	}
 
-	@PostMapping("/register")
-	public String process(@Validated @ModelAttribute("user") User user, BindingResult result) {
-		//		エラーがある場合はerrorパラメータを持ってregisterへ戻る
+	@GetMapping("/confirm")
+	public String getConfirm(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		model.addAttribute(user);
+
+		System.out.println(user);
+		return "confirm";
+	}
+
+	@PostMapping("/confirm")
+	public String confirm(@Validated @ModelAttribute("user") User user, BindingResult result,
+			Model model, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "register";
 		}
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user);
 
-		//		パスワードをセット
+		model.addAttribute("user", user);
+		return "redirect:/confirm";
+	}
+
+	@PostMapping("/register")
+	public String process(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		User user = (User) session.getAttribute("user");
+
+		//		パスワードを暗号化してセット
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		//		その他ユーザ情報をセット
+		user.setCreated_at(LocalDateTime.now());
+		user.setUpdated_at(LocalDateTime.now());
+		user.setDelete_flag(0);
 
 		//		管理者の場合
 		if (user.isAdmin()) {
@@ -86,6 +111,7 @@ public class SecurityController {
 		//		ユーザー情報を保存
 		userRepository.save(user);
 
+		System.err.println("登録が完了しました");
 		//		リダイレクト
 		return "redirect:/login?register";
 

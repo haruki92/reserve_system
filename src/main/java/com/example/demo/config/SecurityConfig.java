@@ -36,8 +36,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						//						cssやjsなどの静的リソースをアクセス可能にする
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-						//						/register と /login をアクセス可能にする
-						.mvcMatchers("/register", "/login").permitAll()
+						//						/register と /login と /comfirm をアクセス可能にする
+						.mvcMatchers("/register", "/login", "/confirm").permitAll()
 						//						/adminの配下はADMINユーザだけアクセス可能にする
 						.mvcMatchers("/admin/**").hasAuthority(Authority.ADMIN.name())
 						.anyRequest()

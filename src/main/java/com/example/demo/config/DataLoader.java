@@ -37,10 +37,10 @@ public class DataLoader implements ApplicationRunner {
 		user.setEmail("example@example.com");
 		user.setPhone("08062487125");
 		user.setGender(0);
-		user.setIncome(500);
-		user.setIndustry("製造業");
-		user.setCreated_at(LocalDate.now());
-		user.setUpdated_at(LocalDate.now());
+		user.setIncome(2);
+		user.setIndustry(3);
+		user.setCreated_at(LocalDateTime.now());
+		user.setUpdated_at(LocalDateTime.now());
 		user.setDelete_flag(0);
 		//		ユーザが存在しない場合、登録する
 		if (userRepository.findByUsername(user.getUsername()).isEmpty()) {
