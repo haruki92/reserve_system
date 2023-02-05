@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
@@ -43,11 +42,13 @@ public class SecurityController {
 		model.addAttribute("user", user.get());
 
 		//		ログイン者のIDを条件に予約情報を取得してセット
-		List<Reserve> reserves = reserveRepository.findReservesByUser_id(user.get().getId());
-		model.addAttribute("reserve", reserves);
+		Optional<Reserve> reserve = reserveRepository.findReservesByUser_id(user.get().getId());
+		model.addAttribute("reserve", reserve.get());
 
-		if (reserves.isEmpty()) {
+		if (reserve.isEmpty()) {
 			System.err.println(user.get().getUsername() + " さんの予約情報はありません");
+		} else {
+			System.err.println(user.get().getUsername() + " さんの予約日は " + reserve.get().getReserve_date() + " です");
 		}
 
 		return "user";

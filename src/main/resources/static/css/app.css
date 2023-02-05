@@ -10,6 +10,11 @@ header {
     text-decoration: none;
 }
 
+.logout:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
 #system_title {
     line-height: 10vh;
     text-align: center;
@@ -49,4 +54,12 @@ header {
     font-size: 1.3rem;
     background-color: #0B1456;
     border-radius: 9999px;
+}
+
+#details {
+    height: fit-content;
+}
+
+#remarks {
+    min-height: 40vh;
 }

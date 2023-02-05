@@ -10,13 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Data;
 
@@ -32,18 +29,13 @@ public class Reserve {
 
 	/*
 	 * 予約日
-	 * 
 	 */
-	@NotBlank
-	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate reserve_date;
 
 	/*
 	 * 予約時間
 	 */
-	@NotBlank
-	@DateTimeFormat(iso = ISO.TIME)
-	private LocalTime reserve_Time;
+	private LocalTime reserve_time;
 
 	/*
 	 * ユーザID
@@ -58,14 +50,12 @@ public class Reserve {
 	 * 予約変更許可フラグ 初期値 = 0
 	 * 予約日前日になったら予約変更不可 = 1
 	 */
-	@NotBlank
 	private Integer arrow_flag;
 
 	/*
 	 * 予約取消フラグ 初期値 = 0
 	 * 予約取消 = 1
 	 */
-	@NotBlank
 	private Integer delete_flag;
 
 	/*

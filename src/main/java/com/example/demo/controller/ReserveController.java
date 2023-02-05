@@ -31,7 +31,7 @@ public class ReserveController {
 			return "/reserve";
 		}
 		reserve.setReserve_date(reserve.getReserve_date()); // 日付をセット
-		reserve.setReserve_Time(reserve.getReserve_Time()); // 時刻をセット
+		reserve.setReserve_time(reserve.getReserve_time()); // 時刻をセット
 		reserve.setRemarks(reserve.getRemarks()); // 備考欄をセット
 		reserve.setUser_id(reserve.getUser_id()); // 会員IDをセット
 
