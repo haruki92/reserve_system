@@ -45,14 +45,10 @@ public class SecurityController {
 		//		findByUsernameでユーザー情報を取得できるが、get()しないとThymeleafに値を渡せない
 		model.addAttribute("user", user.get());
 
-		//		ログイン者のIDを条件に予約情報を取得してセット
+		//		ログイン者のIDを条件に予約情報を取得できた時にセット
 		Optional<Reserve> reserve = reserveRepository.findReservesByUser_id(user.get().getId());
-		model.addAttribute("reserve", reserve.get());
-
-		if (reserve.isEmpty()) {
-			System.err.println(user.get().getUsername() + " さんの予約情報はありません");
-		} else {
-			System.err.println(user.get().getUsername() + " さんの予約日は " + reserve.get().getReserve_date() + " です");
+		if (!reserve.isEmpty()) {
+			model.addAttribute("reserve", reserve.get());
 		}
 
 		return "user";
