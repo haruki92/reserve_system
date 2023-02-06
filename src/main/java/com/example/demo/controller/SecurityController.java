@@ -45,6 +45,11 @@ public class SecurityController {
 		//		findByUsernameでユーザー情報を取得できるが、get()しないとThymeleafに値を渡せない
 		model.addAttribute("user", user.get());
 
+		//		管理者の場合、管理者画面に遷移する
+		if (user.get().isAdmin()) {
+			return "admin/index";
+		}
+
 		//		ログイン者のIDを条件に予約情報を取得できた時にセット
 		Optional<Reserve> reserve = reserveRepository.findReservesByUser_id(user.get().getId());
 		if (!reserve.isEmpty()) {
