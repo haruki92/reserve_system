@@ -29,8 +29,7 @@
                   <td th:text="*{user.password}"></td>
                   <td th:text="*{user.email}"></td>
                   <td th:text="*{user.phone}"></td>
-                  <td th:if="${user.gender == null}">選択しない</td>
-                  <td th:if="${user.gender != null}" th:text="${T(com.example.demo.util.Type).GENDERS.get(user.gender)}"></td>
+                  <td th:text="${T(com.example.demo.util.Type).GENDERS.get(user.gender)}"></td>
                   <td th:text="${T(com.example.demo.util.Income).INCOME.get(user.income)}"></td>
                   <td th:text="${T(com.example.demo.util.Job).INDUSTRY.get(user.industry)}"></td>
               </tr>

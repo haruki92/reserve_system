@@ -63,9 +63,13 @@ public class SecurityController {
 	public String getConfirm(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+
+		//		性別が未選択の場合、"選択しない"をセット
+		if (user.getGender() == null) {
+			user.setGender(0);
+		}
 		model.addAttribute(user);
 
-		System.out.println(user);
 		return "confirm";
 	}
 
