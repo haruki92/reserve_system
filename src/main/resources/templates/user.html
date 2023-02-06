@@ -14,7 +14,7 @@
             <p id="flush" class="d-flex align-items-center justify-content-center fs-5 my-5 mx-auto">
                 ようこそ&nbsp;<span th:text="${username}" class="mx-3"></span>&nbsp;さん</p>
 
-            <h3 class="text-center mb-5 fs-3">現在お申し込み中の内容</h3>
+            <h3 class="text-center mb-5 fs-3">お申し込み中の内容</h3>
 
             <div th:if="${reserve == null}" class="center-block">
                 <h3 class="fs-3 text-center">現在お申し込み中の内容はありません</h3>
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div th:if="${reserve != null}" class="d-flex justify-content-center">
                 <a th:href="@{reserve/edit}"> <button class="btn btn-primary my-5">予約内容を変更する</button></a>
             </div>
         </div>

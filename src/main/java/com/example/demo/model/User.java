@@ -12,9 +12,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.example.demo.util.Authority;
+import com.example.demo.validator.UniqueLogin;
 
 import lombok.Data;
 
@@ -31,14 +33,13 @@ public class User {
 	/*
 	 * ユーザ名
 	 */
-	@NotBlank(message = "名前を入力してください")
 	@Size(min = 2, max = 40)
+	@UniqueLogin // 自作バリデーション
 	private String username;
 
 	/*
 	 * パスワード
 	 */
-	@NotBlank(message = "パスワードを入力してください")
 	@Size(min = 6, max = 64)
 	private String password;
 
@@ -55,7 +56,7 @@ public class User {
 	/*
 	 * メールアドレス
 	 */
-	@NotBlank(message = "メールアドレスを入力してください")
+	@NotBlank
 	@Email
 	@Size(max = 254)
 	private String email;
@@ -63,23 +64,26 @@ public class User {
 	/*
 	 * 電話番号
 	 */
-	@NotBlank(message = "電話番号を入力してください")
-	@Pattern(regexp = "[0-9-]*")
+	@NotBlank
+	@Pattern(regexp = "[0-9-]*", message = "半角数字で入力してください")
 	private String phone;
 
 	/*
 	 * 性別
 	 */
+	@Range(min = 0, max = 3, message = "性別を選択してください")
 	private Integer gender;
 
 	/*
 	 * 年収
 	 */
+	@Range(min = 1, max = 7, message = "年収を選択してください")
 	private Integer income;
 
 	/*
 	 * 業種
 	 */
+	@Range(min = 1, max = 16, message = "業種を選択してください")
 	private Integer industry;
 
 	/*
