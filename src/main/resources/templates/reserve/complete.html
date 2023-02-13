@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html lang="ja"
- xmlns:th="http://www.thymeleaf.org"
- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
- layout:decorate="~{layout/layout}">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
 <head>
-  <meta charset="UTF-8" th:remove="tag">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>予約システム: 予約完了</title>
+    <meta charset="UTF-8" th:remove="tag">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>予約システム: 予約完了</title>
 </head>
+
 <body>
-  <main layout:fragment="content">
-      <h2 class="text-center">以下の内容で予約が完了しました</h2>
-  </main>
+    <main layout:fragment="content">
+        <h2 class="text-center mt-5">以下の内容で予約が完了しました</h2>
+        <table class="mx-auto w-50 h-75 fs-5 mb-5">
+            <thead class="w-50">
+                <tr>
+                    <th>日付</th>
+                    <th>時間</th>
+                    <th>備考欄</th>
+                </tr>
+            </thead>
+            <tbody class="w-50">
+                <tr>
+                    <td th:text="*{reserve.reserveDate}"></td>
+                    <td th:text="*{reserve.reserveTime}"></td>
+                    <td th:text="*{reserve.remarks}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <a th:href="@{/}"><button class="btn btn-primary mb-5">トップページに戻る</button></a>
+        </div>
+    </main>
 </body>
+
 </html>
