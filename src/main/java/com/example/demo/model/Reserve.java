@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -30,12 +31,14 @@ public class Reserve {
 	/*
 	 * 予約日
 	 */
-	private LocalDate reserve_date;
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate reserveDate;
 
 	/*
 	 * 予約時間
 	 */
-	private LocalTime reserve_time;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime reserveTime;
 
 	/*
 	 * ユーザID
@@ -50,25 +53,25 @@ public class Reserve {
 	 * 予約変更許可フラグ 初期値 = 0
 	 * 予約日前日になったら予約変更不可 = 1
 	 */
-	private Integer arrow_flag;
+	private Integer changeFlag;
 
 	/*
 	 * 予約取消フラグ 初期値 = 0
 	 * 予約取消 = 1
 	 */
-	private Integer delete_flag;
+	private Integer deleteFlag;
 
 	/*
 	 * 登録日時
 	 */
 	@CreatedDate
-	private LocalDateTime created_at;
+	private LocalDateTime createdAt;
 
 	/*
 	 * 更新日時
 	 */
 	@UpdateTimestamp
-	private LocalDateTime updated_at;
+	private LocalDateTime updatedAt;
 
 	/*
 	 * 備考

@@ -42,23 +42,49 @@ public class DataLoader implements ApplicationRunner {
 		user.setCreated_at(LocalDateTime.now());
 		user.setUpdated_at(LocalDateTime.now());
 		user.setDelete_flag(0);
-		//		ユーザが存在しない場合、登録する
-		if (userRepository.findByUsername(user.getUsername()).isEmpty()) {
-			userRepository.save(user);
-		}
+
+		var haruki = new User();
+		haruki.setUsername("haruki");
+		haruki.setPassword(passwordEncoder.encode("haruki"));
+		haruki.setAuthority(Authority.USER);
+		haruki.setAdmin(false);
+		haruki.setEmail("example@example.com");
+		haruki.setPhone("08062487125");
+		haruki.setGender(0);
+		haruki.setIncome(2);
+		haruki.setIndustry(3);
+		haruki.setCreated_at(LocalDateTime.now());
+		haruki.setUpdated_at(LocalDateTime.now());
+		haruki.setDelete_flag(0);
 
 		var reserve = new Reserve();
 		reserve.setUser_id(user);
-		reserve.setReserve_date(LocalDate.of(2023, 2, 11));
-		reserve.setReserve_time(LocalTime.of(3, 15));
+		reserve.setReserveDate(LocalDate.of(2023, 2, 11));
+		reserve.setReserveTime(LocalTime.of(3, 00));
 		reserve.setRemarks("備考欄に記入した内容。こんにちは。よろしくお願いします。ありがとうございました。500文字まで。");
-		reserve.setArrow_flag(0);
-		reserve.setDelete_flag(0);
-		reserve.setCreated_at(LocalDateTime.now());
-		reserve.setUpdated_at(LocalDateTime.now());
-		//		予約情報が存在しない場合、登録する
-		if (reserveRepository.findReservesByUser_id(user.getId()).isEmpty()) {
-			reserveRepository.save(reserve);
+		reserve.setChangeFlag(0);
+		reserve.setDeleteFlag(0);
+		reserve.setCreatedAt(LocalDateTime.now());
+		reserve.setUpdatedAt(LocalDateTime.now());
+
+		var testReserve = new Reserve();
+		testReserve.setUser_id(user);
+		testReserve.setReserveDate(LocalDate.of(2023, 5, 5));
+		testReserve.setReserveTime(LocalTime.of(1, 11));
+		testReserve.setRemarks("うんこ");
+		testReserve.setChangeFlag(1);
+		testReserve.setDeleteFlag(1);
+		testReserve.setCreatedAt(LocalDateTime.now());
+		testReserve.setUpdatedAt(LocalDateTime.now());
+		//		ユーザが存在しない場合、登録する
+		if (userRepository.findByUsername(haruki.getUsername()).isEmpty()) {
+			userRepository.save(user);
+			userRepository.save(haruki);
+			//		予約情報が存在しない場合、登録する
+			if (reserveRepository.findReservesByUser_id(haruki.getId()).isEmpty()) {
+				reserveRepository.save(reserve);
+				reserveRepository.save(testReserve);
+			}
 		}
 
 	}

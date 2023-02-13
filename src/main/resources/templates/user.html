@@ -16,8 +16,9 @@
 
             <h3 class="text-center mb-5 fs-3">お申し込み中の内容</h3>
 
-            <div th:if="${reserve == null}" class="center-block">
-                <h3 class="fs-3 text-center">現在お申し込み中の内容はありません</h3>
+            <div th:if="${reserve == null}" class="text-center mx-auto">
+                <h3 class="fs-3">現在お申し込み中の内容はありません</h3>
+                <a th:href="@{/reserve}" class="btn btn-primary my-5 h-100">予約を申し込む</a>
             </div>
 
             <div th:if="${reserve != null}" class="w-50 border mx-auto" id="details" th:object="${reserve}">
@@ -26,8 +27,8 @@
                     <div class="wrapper w-75 mx-auto">
                         <p>日時</p>
                         <div class="d-flex justify-content-start">
-                            <p th:text="*{reserve_date}"></p>&nbsp;&nbsp;
-                            <p th:text="*{reserve_time}"></p>
+                            <p th:text="*{reserveDate}"></p>&nbsp;&nbsp;
+                            <p th:text="*{reserveTime}"></p>
                         </div>
                     </div>
 
