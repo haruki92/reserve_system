@@ -73,7 +73,6 @@ public class ReserveController {
 	public String getReserveConfirm(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
-		session.removeAttribute("reserve");
 		model.addAttribute("reserve", reserve);
 
 		return "reserve/confirm";
@@ -101,9 +100,8 @@ public class ReserveController {
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute("reserve", r.get());
-		model.addAttribute("reserve", r.get());
-
+		session.setAttribute("reserve", reserve);
+		model.addAttribute("reserve", reserve);
 		return "redirect:/reserve/confirm";
 	}
 
@@ -112,18 +110,21 @@ public class ReserveController {
 	 * 予約情報を登録
 	 */
 	@PostMapping("/reserve/complete")
-	public String complete(Authentication loginUser, Model model, HttpServletRequest request) {
+	public String complete(Authentication loginUser, Model model,
+			HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
-		Optional<User> user = userRepository.findByUsername(loginUser.getName());
+
+		User user = userRepository.findByUsername(loginUser.getName()).get();
+		System.out.println(reserve);
+		System.out.println(user.getUsername());
 
 		try {
 			//		予約情報をDBに登録する
-			reserveService.reserve(reserve, user.get());
+			reserveService.reserve(reserve, user);
 		} catch (Exception e) {
-			// 予約が埋まっている場合はExceptionをスローするためmodelにエラーメッセージを追加して予約画面に戻る
-			model.addAttribute("error", e.getMessage());
-			return "redirect:/reserve";
+			System.err.println(e.getMessage());
+			return "redirect:/reserve?error";
 		}
 
 		model.addAttribute(reserve);

@@ -45,9 +45,9 @@
 
                 </div>
             </div>
-            <div class="mx-auto text-center">
-            <a th:href="@{/reserve/edit}" class="text-center"><button
-                    class="btn btn-primary my-5">予約内容を変更する</button></a>
+            <div th:if="${reserve != null}" class="mx-auto text-center">
+                <a th:href="@{/reserve/edit}" class="text-center"><button
+                        class="btn btn-primary my-5">予約内容を変更する</button></a>
             </div>
         </div>
     </main>
