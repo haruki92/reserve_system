@@ -63,7 +63,6 @@ public class ReserveController {
 			calender.add(Calendar.DATE, -1);
 			dates.add(LocalDateConverter.dateToLocalDate(calender.getTime()));
 		}
-		System.err.println(dates);
 
 		model.addAttribute("timelist", timelist);
 		model.addAttribute("dates", dates);
@@ -74,6 +73,7 @@ public class ReserveController {
 	public String getReserveConfirm(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
+		session.removeAttribute("reserve");
 		model.addAttribute("reserve", reserve);
 
 		return "reserve/confirm";
@@ -101,8 +101,8 @@ public class ReserveController {
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute("reserve", reserve);
-		model.addAttribute("reserve", reserve);
+		session.setAttribute("reserve", r.get());
+		model.addAttribute("reserve", r.get());
 
 		return "redirect:/reserve/confirm";
 	}
@@ -123,11 +123,64 @@ public class ReserveController {
 		} catch (Exception e) {
 			// 予約が埋まっている場合はExceptionをスローするためmodelにエラーメッセージを追加して予約画面に戻る
 			model.addAttribute("error", e.getMessage());
-			System.err.println(e.getMessage());
 			return "redirect:/reserve";
 		}
 
+		model.addAttribute(reserve);
+
 		return "reserve/complete";
+	}
+
+	@GetMapping("/reserve/edit")
+	public String edit(@ModelAttribute("reserve") Reserve reserve, Model model, HttpServletRequest request) {
+		LocalDate date = LocalDate.of(2023, 2, 13);
+
+		//		00:00から24:00まで1時間刻みでLocaltimeオブジェクトを作成しリストに格納する
+		//		TODO 開始時間と終了時間は店舗側で任意の値に設定できる仕様にする
+		List<LocalTime> timelist = Stream.iterate(LocalTime.of(0, 0), t -> t.plusHours(1))
+				.limit(24)
+				.collect(Collectors.toList());
+
+		//		日時の計算をするためのCalenderクラスのインスタンスを生成
+		Calendar calender = Calendar.getInstance();
+
+		//		LocalDateTimeからDateに変換してcalenderにセット
+		calender.setTime(LocalDateConverter.localDateToDate(date));
+
+		List<LocalDate> dates = new ArrayList<>();
+
+		//		TODO 10 のところは店舗側で任意の値に設定できる仕様にする
+		for (int i = 1; i < 10; i++) { //		LocalDate型で指定した日付から前10日の日付を取得する
+			calender.add(Calendar.DATE, -1);
+			dates.add(LocalDateConverter.dateToLocalDate(calender.getTime()));
+		}
+
+		model.addAttribute("timelist", timelist);
+		model.addAttribute("dates", dates);
+
+		return "reserve/edit";
+	}
+
+	@PostMapping("/reserve/edit")
+	public String change(@ModelAttribute("reserve") Reserve changedReserve,
+			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("reserve", changedReserve);
+		model.addAttribute("reserve", changedReserve);
+
+		return "reserve/editConfirm";
+	}
+
+	@PostMapping("/reserve/editComplete")
+	public String editComplete(Authentication loginUser, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+		User user = userRepository.findByUsername(loginUser.getName()).get();
+		reserveService.change(reserve, user);
+
+		model.addAttribute("reserve", reserve);
+
+		return "reserve/editComplete";
 	}
 
 	@GetMapping("/admin/reserve_list")

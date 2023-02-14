@@ -34,9 +34,19 @@ public class ReserveService {
 		return reserve;
 	}
 
-	//	TODO 予約変更するメソッドを実装
-	public void change() {
-
+	/**
+	 * 予約を変更するメソッド
+	 * @param 変更後の予約情報
+	 * @param ユーザ情報
+	 */
+	public void change(Reserve reserve, User user) {
+		Reserve rs = reserveRepository.findReservesByUser_id(user.getId()).get();
+		rs.setReserveDate(reserve.getReserveDate());
+		rs.setReserveTime(reserve.getReserveTime());
+		rs.setRemarks(reserve.getRemarks());
+		rs.setChangeFlag(1);
+		rs.setUpdatedAt(LocalDateTime.now());
+		reserveRepository.save(rs);
 	}
 
 	//	TODO 予約キャンセルするメソッドを実装

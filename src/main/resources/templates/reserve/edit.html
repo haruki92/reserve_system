@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8" th:remove="tag">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>予約システム: 予約変更ページ</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="w-75 mx-auto">
+            <h2 class="text-center my-5 fs-3">予約変更ページ</h2>
+            <form th:action="@{/reserve/edit}" method="post" th:object="${reserve}">
+
+                <label for="${date}" class="mb-3">日付</label>
+                <div class="mb-5 w-100 select-wrap mx-auto">
+                    <select class="select mx-auto w-100" th:field="*{reserveDate}">
+                        <option th:each="reserveDate : ${dates}"
+                            th:text="${#temporals.format(reserveDate, 'yyyy年MM月dd日')}" th:value="${{reserveDate}}">
+                        </option>
+                    </select>
+                </div>
+
+                <label for="${time}" class="mb-3">時間</label>
+                <div class="mb-5 w-100 select-wrap mx-auto">
+                    <select class="select mx-auto w-100" th:field="*{reserveTime}">
+                        <option th:each="reserveTime : ${timelist}" th:text="${reserveTime}" th:value="${reserveTime}">
+                        </option>
+                    </select>
+                </div>
+
+                <label for="remarks">備考欄</label>
+                <div class="form-group w-100 mx-auto my-5 h-50">
+                    <textarea th:field="*{remarks}" class="w-100" placeholder="相談内容をご自由に記入してください">
+                    </textarea>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary w-50 mx-auto mb-5" type="submit">確認画面に進む</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
