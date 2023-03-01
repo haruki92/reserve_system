@@ -11,11 +11,17 @@ import com.example.demo.model.Reserve;
 
 public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 	//	第一引数を渡すときは?1, 第二引数は?2 
-	/*
+	/**
 	 * 会員IDを条件に予約情報を取得する
 	 */
 	@Query("SELECT r FROM Reserve r, User u WHERE r.user_id.id = ?1")
 	Optional<Reserve> findReservesByUser_id(int id);
+
+	/**
+	 * delete_flagが0 = 予約キャンセルされていない予約情報を会員IDを条件に取得
+	 */
+	@Query("SELECT r FROM Reserve r, User u WHERE r.user_id.id = ?1 AND r.deleteFlag = 0")
+	Optional<Reserve> findNotDeletedReserve(int id);
 
 	/**
 	 * 予約日を条件に予約情報を取得

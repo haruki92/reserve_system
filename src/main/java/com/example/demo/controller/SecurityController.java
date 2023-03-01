@@ -50,8 +50,8 @@ public class SecurityController {
 			return "admin/index";
 		}
 
-		//		ログイン者のIDを条件に予約情報を取得できた時にセット
-		Optional<Reserve> reserve = reserveRepository.findReservesByUser_id(user.get().getId());
+		//		ログイン者のIDを条件にキャンセルされていない予約情報を取得できた時にセット
+		Optional<Reserve> reserve = reserveRepository.findNotDeletedReserve(user.get().getId());
 		if (!reserve.isEmpty()) {
 			model.addAttribute("reserve", reserve.get());
 		}

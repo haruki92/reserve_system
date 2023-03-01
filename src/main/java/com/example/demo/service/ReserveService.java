@@ -40,7 +40,7 @@ public class ReserveService {
 	 * @param ユーザ情報
 	 */
 	public void change(Reserve reserve, User user) {
-		Reserve rs = reserveRepository.findReservesByUser_id(user.getId()).get();
+		Reserve rs = reserveRepository.findNotDeletedReserve(user.getId()).get();
 		rs.setReserveDate(reserve.getReserveDate());
 		rs.setReserveTime(reserve.getReserveTime());
 		rs.setRemarks(reserve.getRemarks());
@@ -50,7 +50,14 @@ public class ReserveService {
 	}
 
 	//	TODO 予約キャンセルするメソッドを実装
-	public void cancel() {
-
+	/**
+	 * 予約をキャンセル・削除するメソッド
+	 * @param ユーザ情報
+	 */
+	public void delete(User user) {
+		Reserve rs = reserveRepository.findNotDeletedReserve(user.getId()).get();
+		rs.setDeleteFlag(1);
+		rs.setUpdatedAt(LocalDateTime.now());
+		reserveRepository.save(rs);
 	}
 }

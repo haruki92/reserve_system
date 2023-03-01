@@ -41,7 +41,7 @@ public class ReserveController {
 	ReserveService reserveService;
 
 	@GetMapping("/reserve")
-	public String showReserve(@ModelAttribute("reserve") Reserve reserve, Model model) {
+	public String getReserve(@ModelAttribute("reserve") Reserve reserve, Model model) {
 		LocalDate date = LocalDate.of(2023, 2, 13);
 
 		//		00:00から24:00まで1時間刻みでLocaltimeオブジェクトを作成しリストに格納する
@@ -116,8 +116,6 @@ public class ReserveController {
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
 
 		User user = userRepository.findByUsername(loginUser.getName()).get();
-		System.out.println(reserve);
-		System.out.println(user.getUsername());
 
 		try {
 			//		予約情報をDBに登録する
@@ -133,7 +131,7 @@ public class ReserveController {
 	}
 
 	@GetMapping("/reserve/edit")
-	public String edit(@ModelAttribute("reserve") Reserve reserve, Model model, HttpServletRequest request) {
+	public String getEdit(@ModelAttribute("reserve") Reserve reserve, Model model, HttpServletRequest request) {
 		LocalDate date = LocalDate.of(2023, 2, 13);
 
 		//		00:00から24:00まで1時間刻みでLocaltimeオブジェクトを作成しリストに格納する
@@ -163,7 +161,7 @@ public class ReserveController {
 	}
 
 	@PostMapping("/reserve/edit")
-	public String change(@ModelAttribute("reserve") Reserve changedReserve,
+	public String edit(@ModelAttribute("reserve") Reserve changedReserve,
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute("reserve", changedReserve);
@@ -182,6 +180,27 @@ public class ReserveController {
 		model.addAttribute("reserve", reserve);
 
 		return "reserve/editComplete";
+	}
+
+	@GetMapping("reserve/delete")
+	public String getDelete(Authentication loginUser, Model model) {
+		User user = userRepository.findByUsername(loginUser.getName()).get();
+
+		Reserve deleteReserve = reserveRepository
+				.findNotDeletedReserve(user.getId()).get();
+		System.out.println(deleteReserve);
+		model.addAttribute("reserve", deleteReserve);
+
+		return "reserve/delete";
+	}
+
+	@PostMapping("reserve/delete")
+	public String delete(Authentication loginUser, Model model) {
+		User user = userRepository.findByUsername(loginUser.getName()).get();
+
+		reserveService.delete(user);
+
+		return "redirect:/?delete";
 	}
 
 	@GetMapping("/admin/reserve_list")
