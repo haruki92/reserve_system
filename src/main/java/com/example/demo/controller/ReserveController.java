@@ -132,7 +132,7 @@ public class ReserveController {
 
 	@GetMapping("/reserve/edit")
 	public String getEdit(@ModelAttribute("reserve") Reserve reserve, Model model, HttpServletRequest request) {
-		LocalDate date = LocalDate.of(2023, 2, 13);
+		LocalDate date = LocalDate.now();
 
 		//		00:00から24:00まで1時間刻みでLocaltimeオブジェクトを作成しリストに格納する
 		//		TODO 開始時間と終了時間は店舗側で任意の値に設定できる仕様にする
@@ -149,8 +149,8 @@ public class ReserveController {
 		List<LocalDate> dates = new ArrayList<>();
 
 		//		TODO 10 のところは店舗側で任意の値に設定できる仕様にする
-		for (int i = 1; i < 10; i++) { //		LocalDate型で指定した日付から前10日の日付を取得する
-			calender.add(Calendar.DATE, -1);
+		for (int i = 1; i < 10; i++) { //		LocalDate型で指定した日付から10日の日付を取得する
+			calender.add(Calendar.DATE, 1);
 			dates.add(LocalDateConverter.dateToLocalDate(calender.getTime()));
 		}
 
